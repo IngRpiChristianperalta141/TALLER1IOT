@@ -50,11 +50,17 @@ st.sidebar.header("Filtros")
 fecha_min = st.sidebar.date_input("Fecha mínima de operación", value=pd.to_datetime("2022-01-01"))
 fecha_max = st.sidebar.date_input("Fecha máxima de operación", value=pd.to_datetime("2022-12-31"))
 
-# Ruta al archivo CSV
-ruta_archivo = r"C:\Users\ingch\OneDrive\Escritorio\IOT\TALLER1\depositos_oinks.csv"
+uploaded_file = st.file_uploader("Seleccione el archivo CSV", type="csv")
 
-# Cargar el CSV
-df = pl.read_csv(ruta_archivo)
+if uploaded_file is not None:
+    # Leer el archivo CSV cargado y cargarlo en un DataFrame utilizando Polars
+    df = pl.read_csv(uploaded_file)
+    
+    # Mostrar las columnas disponibles en el DataFrame
+    st.subheader("Columnas disponibles en el dataset")
+    st.write(df.columns)
+else:
+    st.info("Aún no se ha cargado ningún archivo CSV")
 st.subheader("Columnas disponibles en el dataset")
 st.write(df.columns)
 
